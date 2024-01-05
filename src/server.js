@@ -9,6 +9,8 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
 import 'dotenv/config';
+import viewsRouter from "./routes/views.router.js";
+
 
 const mainRouter = new MainRouter();
 const app = express();
@@ -38,8 +40,8 @@ app.set('views', __dirname + '/views');
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(morgan('dev'));
-app.use('/api', mainRouter.getRouter());
-
+app.use('/', mainRouter.getRouter());
+app.use('/views', viewsRouter);
 app.use(errorHandler);
 
 const persistence = process.env.PERSISTENCE;

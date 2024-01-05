@@ -13,7 +13,7 @@ export default class ViewsController {
             const { first_name } = user;
             res.render('profile', { user, first_name });
         } else {
-            res.render('/views/errorLogin');
+            res.render('/errorLogin');
         }
     };
 
