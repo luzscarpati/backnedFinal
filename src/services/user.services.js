@@ -1,22 +1,29 @@
-import Service from "./class.services.js";
+import Services from "./class.services.js";
 import UserMongoDao from "../daos/mongodb/users/user.dao.js";
-
 const userDao = new UserMongoDao();
-
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 
 const SECRET_KEY_JWT  = process.env.SECRET_KEY_JWT;
 
-export default class UserService extends Service {
+export default class UserService extends Services {
     constructor(){
         super(userDao);
     };
 
     #generateToken(user) {
-        const payload = { userId: user._id};
-        return jwt.sign(payload, SECRET_KEY_JWT, {expiresIn: "10m"});
-    };
+      try {
+            const payload = {
+            userId: user._id,
+          };
+          const token = jwt.sign(payload, SECRET_KEY_JWT, { expiresIn: "10m" });
+          return token;
+      } catch (error) {
+          console.log('Error al generar el token:', error);
+          return null;
+      }
+  };
+         
 
     async register(user) {
         try{
@@ -26,13 +33,23 @@ export default class UserService extends Service {
         };
     };
 
-    async login(user){
-        try{
-            const userExist = await userDao.login(user);
-            if(userExist) return this.#generateToken(userExist);
-            else return false;
-        }catch(error){
-            console.log(error);
-        };
-    };
+    async login(user) {
+      try {
+          const userExist = await userDao.login(user);
+
+          if (userExist) {
+              const token = this.#generateToken(userExist);  
+              if (!token) {
+                  console.log("Error al generar el token");
+                  return null;
+              };
+              return token;
+          } else {
+              return null;
+          };
+      } catch (error) {
+          console.log('user.service', error);
+          throw error;
+      };
+  };
 };

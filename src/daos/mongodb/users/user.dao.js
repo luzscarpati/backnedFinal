@@ -16,30 +16,44 @@ export default class UserMongoDao extends MongoDao {
                    ...user,
                    password: createHash(password) 
                 });
-            else return false;
+            else return null;
         }catch(error){
             console.log(error);
         };
     };
 
     async login(user) {
-        try{
-            const { email, password } = user; 
+        try {
+            const { email, password } = user;
             const existUser = await this.getByEmail(email);
-            if(existUser) {
-                const passValid = isValidPassword(existUser, password);
-                if(!passValid) return false; 
-            }else return false
-        }catch(error){
+        
+            if (existUser) {
+                const passValid = isValidPassword(existUser, password);    
+                return passValid ? existUser : false;
+            } else {
+                return false;
+            };
+        } catch (error) {
             console.log(error);
+            throw error;
         };
     };
+    
 
-    async getByEmail(email) {
-        try{
-            return await this.model.findOne({email});
-        }catch(error){
-            console.log(error);
+      async getByEmail(email) {
+        try {
+            const user = await this.model.findOne({ email });
+            if (!user) {
+                console.log("Usuario no encontrado para el email:", email);
+                return null;
+            };
+            console.log("Usuario encontrado:", user.email);
+            return user;
+        } catch (error) {
+            console.log("Error en getByEmail:", error);
+            throw error;
         };
     };
+    
+    
 };

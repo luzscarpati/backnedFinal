@@ -12,25 +12,34 @@ export default class UserController extends Controllers {
     register = async (req, res, next) => {
         try {
             const newUser = await userService.register(req.body);
-            if(!newUser) createResponse(res, 404, "Sorry, user email already exist");
-            else createResponse (res, 200, newUser);
+            if(!newUser){
+              res.redirect(`/views/errorRegister`)
+              createResponse(res, 404, "Sorry, user email already exist");
+            }else {
+              res.redirect(`/views`);
+              createResponse (res, 200, newUser);
+            }
+            
         }catch(error){
             next(error.message);
         };
     };
 
-    login  = async (req, res, next) => {
+    login = async (req, res, next) => {
         try {
-            const token = await userService.login(req.body);
-            if(!token) createResponse(res, 404, "Sorry, user can not login");
-            else {
-                res.header("Authorization", token);
-                createResponse(res, 200, token);
-            };
-        }catch(error){
-            next(error.message);
-        };
-    };
+          const token = await userService.login(req.body);
+          if (!token == null) {
+            res.redirect('/views/errorLogin');
+            createResponse(res, 404, "Error login");
+          }
+          else {
+            res.header("Authorization", token);
+            createResponse(res, 200, token);
+          }
+        } catch (error) {
+          next(error.message);
+        }
+      };
     
     profile = (req, res, next) => {
         try {
