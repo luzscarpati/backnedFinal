@@ -26,24 +26,26 @@ export default class UserController extends Controllers {
     };
 
     login = async (req, res, next) => {
-        try {
-          const token = await userService.login(req.body);
-          if (!token == null) {
-            res.redirect('/views/errorLogin');
-            createResponse(res, 404, "Error login");
-          }
-          else {
-            res.header("Authorization", token);
-            createResponse(res, 200, token);
-          }
-        } catch (error) {
-          next(error.message);
+      try {
+        const token = await userService.login(req.body);
+        if (!token) {
+          createResponse(res, 404, "Error login");
+          res.redirect('/errorLogin');
+        } else {
+          res.render('profile', { token });
         }
-      };
+      } catch (error) {
+        next(error.message);
+      }
+    };
     
-    profile = (req, res, next) => {
+    
+    
+    profile = async (req, res, next) => {
         try {
           const { first_name, last_name, email, role } = req.user;
+          res.render('profile', {first_name})
+          console.log({first_name})
           createResponse(res, 200, {
             first_name,
             last_name,
