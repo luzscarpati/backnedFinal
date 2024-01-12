@@ -1,5 +1,5 @@
 import Services from "./class.services.js"
-import ProductMongoDao from "../daos/mongodb/products/product.dao.js"
+import ProductMongoDao from "../persistence/daos/mongodb/products/product.dao.js"
 
 const productDao = new ProductMongoDao();
 

@@ -9,5 +9,5 @@ export const initMongoDB = async () => {
       console.log("Conectado a la base de datos de MongoDB");
     } catch (error) {
       console.log(error);
-    }
+    };
   };
