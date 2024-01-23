@@ -15,9 +15,10 @@ export default class MongoDao {
     async getById(id) {
         try{
             const response = await this.model.findById(id);
+            console.log("GetbyID mongodao", response);
             return response;
         }catch(error){
-            confirm.log(error);
+            console.log(error);
         };
     };
 
@@ -32,7 +33,7 @@ export default class MongoDao {
 
     async update(id, obj) {
         try{
-            const response = await this.model.updateOme({_id: id}, obj);
+            const response = await this.model.updateOne({_id: id}, obj);
             return response; // puede fallar
         }catch(error){
             console.log(error);

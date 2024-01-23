@@ -13,10 +13,10 @@ export default class UserController extends Controllers {
         try {
             const newUser = await userService.register(req.body);
             if(!newUser){
-              res.redirect(`/views/errorRegister`)
+              //res.redirect(`/views/errorRegister`)
               createResponse(res, 404, "Sorry, user email already exist");
             }else {
-              res.redirect(`/views`);
+              //res.redirect(`/views`);
               createResponse (res, 200, newUser);
             }
             
@@ -30,9 +30,10 @@ export default class UserController extends Controllers {
         const token = await userService.login(req.body);
         if (!token) {
           createResponse(res, 404, "Error login");
-          res.redirect('/errorLogin');
+          //res.redirect('/errorLogin');
         } else {
-          res.render('profile', { token });
+          //res.render('profile', { token });
+          createResponse (res, 200, token)
         }
       } catch (error) {
         next(error.message);
@@ -44,7 +45,7 @@ export default class UserController extends Controllers {
     profile = async (req, res, next) => {
         try {
           const { first_name, last_name, email, role } = req.user;
-          res.render('profile', {first_name})
+          //res.render('profile', {first_name})
           console.log({first_name})
           createResponse(res, 200, {
             first_name,

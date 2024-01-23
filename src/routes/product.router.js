@@ -3,7 +3,7 @@ import ProductController from "../controllers/product.controller.js";
 const router = Router();
 const controller = new ProductController();
 
-router.get('/', controller.getAll);
+router.get('/', controller.getAll); //CHECK
 router.get('/:id', controller.getById);
 router.post('/', controller.create);
 router.put('/:id', controller.update);

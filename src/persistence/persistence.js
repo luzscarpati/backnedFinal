@@ -7,7 +7,7 @@ import { initMongoDB } from "../config/connection.js";
 
 let userDao;
 let prodDao;
-const persistence = process.env.PERSISTENCE
+const persistence = process.argv[2] // toma de línea de comenado
 switch (persistence) {
     case "FS":
         userDao = new UserFSDao('./src/persistence/daos/filesystem/users.json');
