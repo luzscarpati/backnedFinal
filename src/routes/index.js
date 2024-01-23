@@ -11,6 +11,7 @@ export default class MainRouter {
     initRoutes() {
         this.router.use('/products', productRouter);
         this.router.use('/users', userRouter);
+        this.router.use('/carts')
     };
 
     getRouter() {
