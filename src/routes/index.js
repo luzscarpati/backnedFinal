@@ -13,7 +13,7 @@ export default class MainRouter {
         this.router.use('/products', productRouter);
         this.router.use('/users', userRouter);
         this.router.use('/carts', cartRouter);
-        this.router.use('/ticket', ticketRouter);
+        //this.router.use('/ticket', ticketRouter);
     };
 
     getRouter() {

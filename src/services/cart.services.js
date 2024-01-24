@@ -1,35 +1,42 @@
 import Services from "./class.services.js";
 import persistence from "../persistence/persistence.js";
 
-const {cartDao} = persistence;
+const {cartDao, productDao} = persistence;
 
 export default class CartService extends Services {
     constructor(){
         super(cartDao);
     };
 
-    async remove (id) {
+    async remove(id) {
         try {
           const cartDel = await cartDao.delete(id);
-          if (!cartDel) return false;
-          else return cartDel;
+          if (!cartDel) {
+            return false;
+          } else {
+            return cartDel;
+          }
         } catch (error) {
           console.log(error);
         }
       };
       
     
-    async addProdToCart (cartId, prodId) {
+    async addProdToCart(cartId, prodId) {
       try {
-        const existCart = await getById(cartId);
+        const existCart = await cartDao.getById(cartId);
         console.log("existCart-->", existCart);
         if (!existCart) return false;
     
-        const existProd = await prodDao.getById(prodId);
+        const existProd = await productDao.getById(prodId);
         console.log("existProd-->", existProd);
         if (!existProd) return false;
           //SI EXISTE, aumenta quantity++
-        const existProdInCart = existCart.products.find((p)=>p.product._id.toString() === prodId.toString());
+        const existProdInCart = existCart.products.find(
+          (p)=>{
+            return p.product._id.toString() === prodId.toString();
+          }
+        );
         if(existProdInCart) {
           existProdInCart.quantity++;
           existCart.save();
@@ -44,7 +51,7 @@ export default class CartService extends Services {
     
     async removeProdToCart (cartId, prodId) {
         try {
-          const existCart = await getById(cartId);
+          const existCart = await cartDao.getById(cartId);
           console.log("existCart-->", existCart);
           if (!existCart) return false;
       

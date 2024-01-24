@@ -8,28 +8,28 @@ import 'dotenv/config';
 import { initMongoDB } from "../config/connection.js";
 
 let userDao;
-let prodDao;
+let productDao;
 let cartDao;
 const persistence = process.argv[2] // toma de línea de comando
 switch (persistence) {
     case "FS":
         userDao = new UserFSDao('./src/persistence/daos/filesystem/users.json');
-        prodDao = new ProductFSDao('./src/persistence/daos/filesystem/products.json');
+        productDao = new ProductFSDao('./src/persistence/daos/filesystem/products.json');
         cartDao = new CartFsDao('./src/persistence/daos/filesystem/carts.json')
         console.log(persistence);
         break;
     case "MONGO":
         await initMongoDB();
         userDao = new UserMongoDao();
-        prodDao = new ProductMongoDao();
+        productDao = new ProductMongoDao();
         cartDao = new CartsMongoDao();
         console.log(persistence);
         break;
     default:
         userDao = new UserFSDao('./src/persistence/daos/filesystem/users.json');
-        prodDao = new ProductFSDao('./src/persistence/daos/filesystem/products.json');
+        productDao = new ProductFSDao('./src/persistence/daos/filesystem/products.json');
         cartDao = new CartFsDao('./src/persistence/daos/filesystem/carts.json')
         break;
 }
 
-export default { userDao, prodDao };
+export default { userDao, productDao, cartDao };
