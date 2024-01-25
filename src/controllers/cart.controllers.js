@@ -1,5 +1,6 @@
 import Controllers from "./class.controller.js";
 import CartService from "../services/cart.services.js";
+import { createResponse } from "../utils.js";
 
 const service = new CartService();
 export default class CartController extends Controllers {
@@ -11,8 +12,11 @@ export default class CartController extends Controllers {
     try {
       const { id } = req.params;
       const cartDel = await service.remove(id);
-      if (!cartDel) res.status(404).json({ msg: "Error delete cart!" });
-      else res.status(200).json({ msg: `Cart id: ${id} deleted` });
+      if (!cartDel) {
+        createResponse(res, 404, "Error delete cart!" )
+      } else {
+        createResponse(res, 200, `Cart id: ${id} deleted`);
+      }
     } catch (error) {
       next(error.message);
     }
@@ -26,8 +30,11 @@ export default class CartController extends Controllers {
         idCart,
         idProd,
       );
-      if (!newProdToUserCart) res.json({ msg: "Error add product to cart" });
-      else res.json(newProdToUserCart);
+      if (!newProdToUserCart){
+        createResponse(res, 404, "Error add product to cart");
+      } else {
+        createResponse(res, 200, newProdToUserCart);
+      }
     } catch (error) {
       next(error.message);
     }
@@ -41,8 +48,11 @@ export default class CartController extends Controllers {
         idCart,
         idProd,
       );
-      if (!delProdToUserCart) res.json({ msg: "Error remove product to cart" });
-      else res.json({ msg: `product ${idProd} deleted to cart` });
+      if (!delProdToUserCart) {
+        createResponse(res, 404, "Error remove product to cart"); 
+      } else {
+        createResponse(res, 200, `product ${idProd} deleted to cart`);
+      };
     } catch (error) {
       next(error.message);
     }
@@ -58,8 +68,11 @@ export default class CartController extends Controllers {
         idProd,
         quantity
       );
-      if (!updateProdQuantity) res.json({ msg: "Error update product quantity to cart" });
-      else res.json(updateProdQuantity);
+      if (!updateProdQuantity) {
+        createResponse(res, 404, "Error update product quantity to cart");
+      } else {
+        createResponse(res, 200, updateProdQuantity);
+      };
     } catch (error) {
       next(error.message);
     }
@@ -71,13 +84,13 @@ export default class CartController extends Controllers {
       const clearCart = await service.clearCart(
         idCart,
       );
-      if (!clearCart) res.json({ msg: "Error clear cart" });
-      else res.json(clearCart);
+      if (!clearCart) {
+        createResponse(res, 404, "Error clear cart");
+      } else {
+        createResponse(res, 200, clearCart);
+      };
     } catch (error) {
       next(error.message);
     }
   };
 };
-
-
-

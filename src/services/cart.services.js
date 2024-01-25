@@ -25,12 +25,13 @@ export default class CartService extends Services {
     async addProdToCart(cartId, prodId) {
       try {
         const existCart = await cartDao.getById(cartId);
-        console.log("existCart-->", existCart);
-        if (!existCart) return false;
-    
+        if (!existCart) {
+          return false;
+        }
         const existProd = await productDao.getById(prodId);
-        console.log("existProd-->", existProd);
-        if (!existProd) return false;
+        if (!existProd) {
+          return false;
+        }
           //SI EXISTE, aumenta quantity++
         const existProdInCart = existCart.products.find(
           (p)=>{
@@ -49,21 +50,38 @@ export default class CartService extends Services {
       }
     };
     
-    async removeProdToCart (cartId, prodId) {
-        try {
+    async removeProdToCart(cartId, prodId) {
+      try {
           const existCart = await cartDao.getById(cartId);
           console.log("existCart-->", existCart);
-          if (!existCart) return false;
-      
-          const existProd = existCart.products.find((p)=>p.product._id.toString() === prodId.toString());
+  
+          if (!existCart) {
+              throw new Error("Cart not found");
+          }
+  
+          const existProd = await productDao.getById(prodId);
           console.log("existProd-->", existProd);
-          if (!existProd) return false;
-      
-          return await cartDao.removeProdToCart(existCart, existProd);
-        } catch (error) {
+  
+          if (!existProd) {
+              throw new Error("Product not found");
+          }
+  
+          const existProdInCart = existCart.products.find((p) => p.product._id.toString() === prodId.toString());
+  
+          if (existProdInCart && existProdInCart.quantity > 0) {
+              existProdInCart.quantity--;
+              await existCart.save();
+              return existProdInCart;
+          } else {
+              return await cartDao.removeProdToCart(existCart, prodId);
+          }
+      } catch (error) {
           console.log(error);
-        }
-      };
+          throw new Error("Error removing product from cart");
+      }
+  };
+  
+  
     
       async updateProdQuantityToCart (cartId, prodId, quantity) {
         try {
