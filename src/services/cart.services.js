@@ -99,16 +99,19 @@ export default class CartService extends Services {
         }
       };
     
-      async clearCart (cartId) {
+      async clearCart(cartId) {
         try {
-          const existCart = await getById(cartId);
-          console.log("existCart-->", existCart);
-          if (!existCart) return false;
-    
-          return await cartDao.clearCart(existCart);
+            const existCart = await cartDao.getById(cartId);
+            console.log("existCart-->", existCart);
+            if (!existCart){
+              return false;
+            } else {
+              return await cartDao.clearCart(existCart);
+            }
         } catch (error) {
-          console.log(error);
+            console.log(error);
+            throw new Error("Error clearing cart");
         }
-      };
+    }    
 
 };
