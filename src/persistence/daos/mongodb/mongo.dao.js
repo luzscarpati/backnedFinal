@@ -15,7 +15,6 @@ export default class MongoDao {
     async getById(id) {
         try{
             const response = await this.model.findById(id);
-            console.log("GetbyID mongodao", response);
             return response;
         }catch(error){
             console.log(error);
@@ -30,6 +29,16 @@ export default class MongoDao {
             console.log(error);
         };
     };
+
+    // async getByEmail(obj) {
+    //     try{
+    //         console.log("getByEmail input:", obj);
+    //         const response = await this.model.findOne({ email: obj.email });
+    //         return response;
+    //     }catch(error){
+    //         console.log(error);
+    //     };
+    // };
 
     async update(id, obj) {
         try{

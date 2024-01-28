@@ -3,6 +3,7 @@ import { fileURLToPath } from "url";
 import bcryptjs from "bcryptjs";
 import MongoStore from "connect-mongo";
 import  'dotenv/config';
+import { es, fakerES } from "@faker-js/faker"; 
 
 export const mongoStoreOptions = {
     secret: process.env.SESSION_SECRET,
@@ -29,4 +30,16 @@ export const isValidPassword = (user, password) => {
 
 export const createResponse = (res, statusCode, data) => {
     return res.status(statusCode).json({data});
+};
+
+
+
+export const generateProduct = () => {
+  return {
+    name: fakerES.commerce.productName(),
+    description: fakerES.commerce.productDescription(),
+    price: fakerES.commerce.price(),
+    stock: fakerES.number.int({min: 0, max: 200}),
+    category: fakerES.commerce.productAdjective(),
+    };
 };
