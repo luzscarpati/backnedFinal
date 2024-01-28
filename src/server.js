@@ -3,7 +3,7 @@ import morgan from "morgan";
 import MainRouter from "./routes/index.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 
-import { __dirname, mongoStoreOptions } from "./utils.js";
+import { __dirname, mongoStoreOptions } from "./utils/utils.js";
 import handlebars from "express-handlebars";
 import session from "express-session";
 import passport from "passport";

@@ -1,7 +1,9 @@
 import Controllers from "./class.controller.js";
 import CartService from "../services/cart.services.js";
-import { createResponse } from "../utils.js";
+//import { createResponse } from "../utils/utils.js";
+import { HttpResponse, errorsDictionary } from "../utils/http.response.js";
 
+const httpResponse = new HttpResponse();
 const service = new CartService();
 export default class CartController extends Controllers {
   constructor() {
@@ -13,12 +15,16 @@ export default class CartController extends Controllers {
       const { id } = req.params;
       const cartDel = await service.remove(id);
       if (!cartDel) {
-        createResponse(res, 404, "Error delete cart!" )
+        return (
+          httpResponse.NotFound(res, errorsDictionary.ERROR_DELETE_CART)
+        )
       } else {
-        createResponse(res, 200, `Cart id: ${id} deleted`);
-      }
+        return (
+          httpResponse.Ok(res, cartDel)
+        )
+      };
     } catch (error) {
-      next(error.message);
+      next(error);
     }
   };
 
@@ -31,12 +37,14 @@ export default class CartController extends Controllers {
         idProd,
       );
       if (!newProdToUserCart){
-        createResponse(res, 404, "Error add product to cart");
+        return (
+          httpResponse.NotFound(res, errorsDictionary.ERROR_ADD_TO_CART)
+        )
       } else {
-        createResponse(res, 200, newProdToUserCart);
-      }
+        httpResponse.Ok(res, newProdToUserCart)
+        };
     } catch (error) {
-      next(error.message);
+      next(error);
     }
   };
 
@@ -49,12 +57,16 @@ export default class CartController extends Controllers {
         idProd,
       );
       if (!delProdToUserCart) {
-        createResponse(res, 404, "Error remove product to cart"); 
+        return (
+          httpResponse.NotFound(res, errorsDictionary.ERROR_DELETE_TO_CART)
+        )
       } else {
-        createResponse(res, 200, `product ${idProd} deleted to cart`);
+        return (
+          httpResponse.Ok(res, delProdToUserCart)
+        )
       };
     } catch (error) {
-      next(error.message);
+      next(error);
     }
   };
 
@@ -69,12 +81,16 @@ export default class CartController extends Controllers {
         quantity
       );
       if (!updateProdQuantity) {
-        createResponse(res, 404, "Error update product quantity to cart");
+        return (
+          httpResponse.NotFound(res, "Error update product quantity to cart")
+        )
       } else {
-        createResponse(res, 200, updateProdQuantity);
+        return (
+          httpResponse.Ok(res, updateProdQuantity)
+        )
       };
     } catch (error) {
-      next(error.message);
+      next(error);
     }
   };
 
@@ -85,9 +101,13 @@ export default class CartController extends Controllers {
         idCart,
       );
       if (!clearCart) {
-        createResponse(res, 404, "Error clear cart");
+        return (
+          httpResponse.NotFound(res, "Error clear cart")
+        )
       } else {
-        createResponse(res, 200, clearCart);
+        return (
+          httpResponse.Ok(res, clearCart)
+        )  
       };
     } catch (error) {
       next(error.message);

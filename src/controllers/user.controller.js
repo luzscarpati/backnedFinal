@@ -1,7 +1,7 @@
 import Controllers from "./class.controller.js";
 import UserService from "../services/user.services.js";
-import { createResponse } from "../utils.js";
-
+import { HttpResponse, errorsDictionary } from "../utils/http.response.js";
+const httpResponse = new HttpResponse()
 const userService = new UserService();
 
 export default class UserController extends Controllers {
@@ -13,15 +13,16 @@ export default class UserController extends Controllers {
         try {
             const newUser = await userService.register(req.body);
             if(!newUser){
-              //res.redirect(`/views/errorRegister`)
-              createResponse(res, 404, "Sorry, user email already exist");
+              return (
+                httpResponse.Forbidden(res, errorsDictionary.ERROR_CREATE_USER)
+              )
             }else {
-              //res.redirect(`/views`);
-              createResponse (res, 200, newUser);
-            }
-            
+              return(
+                httpResponse.Ok(res, newUser)
+              )
+            };
         }catch(error){
-            next(error.message);
+            next(error);
         };
     };
 
@@ -29,32 +30,32 @@ export default class UserController extends Controllers {
       try {
         const token = await userService.login(req.body);
         if (!token) {
-          createResponse(res, 404, "Error login");
-          //res.redirect('/errorLogin');
+          return(
+            httpResponse.Unauthorized(res, errorsDictionary.ERROR_LOGIN)
+          )
         } else {
-          //res.render('profile', { token });
-          createResponse (res, 200, token)
+          return (
+            httpResponse.Ok(res, token)
+          )
         }
       } catch (error) {
-        next(error.message);
+        next(error);
       }
     };
     
-    
-    
-    profile = async (req, res, next) => {
-        try {
-          const { first_name, last_name, email, role } = req.user;
-          //res.render('profile', {first_name})
-          console.log({first_name})
-          createResponse(res, 200, {
+    profile = async (req, res, next) =>{
+      try{
+        const { first_name, last_name, email, role } = req.user;
+        return (
+          httpResponse.Ok(res, {
             first_name,
             last_name,
             email,
             role,
-          });
-        }catch (error) {
-          next(error.message);
-        };
-      };
+            })
+        )
+      }catch(error){
+        next(error)
+      }
+    };
 };
