@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 import UserMongoDao from "../persistence/daos/mongodb/users/user.dao.js";
-import 'dotenv/config';
+import config from "../config/config.js";
 
 const userDao = new UserMongoDao();
-const SECRET_KEY = process.env.SECRET_KEY_JWT;
+const SECRET_KEY = config.SECRET_KEY_JWT;
 
 export const verifyToken = async (req, res, next) => {
     const authHeader = req.get('Authorization');

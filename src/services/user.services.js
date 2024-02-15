@@ -1,11 +1,11 @@
 import Services from "./class.services.js";
 import persistence from "../persistence/persistence.js";
 import jwt from "jsonwebtoken";
-import "dotenv/config";
+import config from "../config/config.js";
 //import UserRepository from "../repository/user.repository.js";
 
 const { userDao } = persistence;
-const SECRET_KEY_JWT = process.env.SECRET_KEY_JWT;
+const SECRET_KEY_JWT = config.SECRET_KEY_JWT;
 
 //const userRepository = new UserRepository();
 

@@ -1,12 +1,13 @@
 import winston from "winston";
 import "winston-mongodb";
+import config from "../config/config.js";
 
 const logConfiguration = {
   transports: [
     winston.add(
       new winston.transports.MongoDB({
         options: { useUnifiedTopology: true },
-        db: 'mongodb+srv://luzscarpati:oufU0an1vInHeUyO@codercluster.pflfwh6.mongodb.net/coderhouse47345?retryWrites=true&w=majority',
+        db: config.MONGO_URL,
         collection: "logs",
         tryReconnect: true, 
         level: "error",

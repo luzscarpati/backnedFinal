@@ -7,8 +7,8 @@ import { __dirname, mongoStoreOptions } from "./utils/utils.js";
 import handlebars from "express-handlebars";
 import session from "express-session";
 import passport from "passport";
-import 'dotenv/config';
 import viewsRouter from "./routes/views.router.js";
+import config from "./config/config.js";
 
 
 const mainRouter = new MainRouter();
@@ -34,6 +34,6 @@ app.use('/api', mainRouter.getRouter());
 app.use('/views', viewsRouter);
 app.use(errorHandler);
 
-const PORT = process.env.PORT 
+const PORT = config.PORT;
 
 app.listen(PORT, ()=> logger.info(`SERVER UP ON PORT: ${PORT}`));
