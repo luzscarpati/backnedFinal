@@ -2,12 +2,13 @@ import Services from "./class.services.js";
 import persistence from "../persistence/persistence.js";
 import jwt from "jsonwebtoken";
 import config from "../config/config.js";
-//import UserRepository from "../repository/user.repository.js";
+import { sendMail } from "./mailing.user.services.js";
+
 
 const { userDao } = persistence;
 const SECRET_KEY_JWT = config.SECRET_KEY_JWT;
 
-//const userRepository = new UserRepository();
+
 
 export default class UserService extends Services {
     constructor() {
@@ -29,7 +30,9 @@ export default class UserService extends Services {
 
     async register(user) {
         try{
-            return await userDao.register(user);
+            const response = await userDao.register(user);
+            await sendMail(user, 'register');
+            return response;
         }catch(error) {
             console.log(error);
         };

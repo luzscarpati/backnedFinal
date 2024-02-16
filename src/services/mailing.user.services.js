@@ -1,0 +1,63 @@
+import { createTransport } from "nodemailer";
+import confing from '../config/config.js';
+
+
+const transporter = createTransport({
+    service: 'gmail',
+    port: 465,
+    secure: true,
+    auth: {
+        user: confing.EMAIL,
+        pass: confing.PASSWORD
+    }
+});
+
+const createMsgRegister = (first_name) => {
+`<h2>Hola ${first_name}, ahora podés usar nuestros servicios</h2>`};
+
+const createMsgResetPass = (first_name) => {
+    return (
+         `<p>${first_name}, hacé click <a href='http://localhost:8080/new-password'>ACÁ</a> para cambiar tu contraseña</p>`
+    )
+}
+
+export const sendMail = async ( user, service, token = null) => {
+    try {
+        const { first_name, email } = user;
+        let message = '';
+        let subj = '';
+
+       switch(service) {
+        case "register":
+            message = createMsgRegister(first_name);
+            subj = 'Registro existoso';
+            break;
+        case "resetPassword":
+            message = createMsgResetPass(first_name);
+            subj = 'Recupera tu contraseña';
+            break;
+        case null:
+            message = "";
+            break;
+       };
+
+       const gmailOptions = {
+        from: confing.EMAIL,
+        to: email,
+        subject: subj,
+        html: message
+       };
+
+       const response = await transporter.sendMail(gmailOptions)
+       if(token !== null) {
+        return token
+       }else {
+        return (
+            console.log("Mail enviado", response)
+        )
+       }
+
+    }catch(error){
+        throw new Error (error.message);
+    };
+};
