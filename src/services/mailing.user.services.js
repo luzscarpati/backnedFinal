@@ -19,7 +19,7 @@ const createMsgRegister = (first_name) => {
 
 const createMsgResetPass = (first_name) => {
     return (
-         `<p>${first_name}, hacé click <a href='http://localhost:8080/new-password'>ACÁ</a> para cambiar tu contraseña</p>`
+         `<p>${first_name}, hacé click <a href='http://localhost:8080/api/users/new-password'>ACÁ</a> para cambiar tu contraseña</p>`
     )}
 
 export const sendMail = async ( user, service, token = null) => {

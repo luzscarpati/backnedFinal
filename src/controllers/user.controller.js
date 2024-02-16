@@ -77,4 +77,21 @@ export default class UserController extends Controllers {
       next(error);
     };
   };
+
+  async updatePassword (req, res, next) {
+    try {
+      const user = req.user;
+      const { pass } = req.body;
+      const { tokenpass } = req.cookies;
+      if (!tokenpass)
+        return httpResponse.Forbidden(res, errorsDictionary.ERROR_TOKEN);
+      const updPass = await userService.updatePassword(user, pass);
+      if (!updPass) return httpResponse.NotFound(res, errorsDictionary.ERROR_PASSWORDL);
+      res.clearCookie("tokenpass");
+      return httpResponse.Ok(res, updPass);
+    } catch (error) {
+      next(error.message);
+    };
+  };
+
 };

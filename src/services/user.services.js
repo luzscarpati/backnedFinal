@@ -42,5 +42,19 @@ export default class UserService extends Services {
       };
     };
     
+    updatePassword = async (user, password) => {
+      try{
+          const response = await userDao.updatePassword(user, password);
+          if(!response){
+              return false
+          }else {
+              return (
+                  response
+              );
+          };
+      }catch(error){
+          throw new Error(error.menssage);
+      };
+  };
     
 };

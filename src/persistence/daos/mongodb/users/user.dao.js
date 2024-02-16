@@ -3,6 +3,7 @@ import { UserModel } from "./user.model.js";
 import { createHash, isValidPassword } from "../../../../utils/utils.js";
 import jwt from "jsonwebtoken";
 import config from "../../../../config/config.js";
+import { tr } from "@faker-js/faker";
 
 const SECRET_KEY_JWT = config.SECRET_KEY_JWT;
 
@@ -77,6 +78,22 @@ export default class UserMongoDao extends MongoDao {
                 );
             }else {
                 return false;
+            };
+        }catch(error){
+            throw new Error(error.menssage);
+        };
+    };
+
+    async updatePassword(user, password) {
+        try{
+            const isEqual = isValidPassword(user, password);
+            if(isEqual){
+                return false
+            }else {
+                const newPass = createHash(password);
+                return (
+                    await this.update(user_id, { password: newPass })
+                );
             };
         }catch(error){
             throw new Error(error.menssage);
