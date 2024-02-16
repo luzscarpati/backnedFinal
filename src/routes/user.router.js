@@ -8,5 +8,5 @@ const router = Router();
 router.post('/register', controller.register);
 router.post('/login', controller.login);
 router.get('/profile', verifyToken, controller.profile);
-
+router.post('/reset-pass', verifyToken, controller.resetPassword)
 export default router;

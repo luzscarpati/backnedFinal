@@ -8,6 +8,7 @@ import handlebars from "express-handlebars";
 import session from "express-session";
 import passport from "passport";
 import viewsRouter from "./routes/views.router.js";
+import cookieParser from "cookie-parser";
 import config from "./config/config.js";
 
 
@@ -24,6 +25,7 @@ app.set('view engine', 'handlebars');
 app.set('views', __dirname + '/views');
 
 app.use(express.json());
+app.use(cookieParser(config.SECRET_COOKIES))
 app.use(express.urlencoded({extended: true}));
 app.use(morgan('dev'));
 app.use('/loggerTest', (req, res) => {

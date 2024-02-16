@@ -9,5 +9,6 @@ export default {
     PERSISTENCE: process.env.PERSISTENCE,
     SECRET_COOKIES: process.env.SECRET_COOKIES,
     EMAIL: process.env.EMAIL,
-    PASSWORD: process.env.PASSWORD
+    PASSWORD: process.env.PASSWORD,
+    SECRET_COOKIES: process.env.SECRET_COOKIES
 };

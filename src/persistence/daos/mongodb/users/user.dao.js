@@ -1,16 +1,30 @@
 import MongoDao from "../mongo.dao.js";
 import { UserModel } from "./user.model.js";
 import { createHash, isValidPassword } from "../../../../utils/utils.js";
+import jwt from "jsonwebtoken";
+import config from "../../../../config/config.js";
+
+const SECRET_KEY_JWT = config.SECRET_KEY_JWT;
 
 export default class UserMongoDao extends MongoDao {
     constructor() {
         super(UserModel);
     };
 
+    generateToken(user, timeExp) {
+        const payload = {
+            userId: user._id,
+        };
+        const token = jwt.sign(payload, SECRET_KEY_JWT, {
+            expiresIn: timeExp,
+        });
+        return token;
+    };
+
     async register(user) {
         try{
             const { email, password } = user;
-            const existUser = await this.getByEmail(email);
+            const existUser = await this.model.findOne({ email });
             if(!existUser)
                 return await this.model.create({
                    ...user,
@@ -18,25 +32,23 @@ export default class UserMongoDao extends MongoDao {
                 });
             else return null;
         }catch(error){
-            console.log(error);
+            throw new Error(error.message);
         };
     };
 
     async login(user) {
         try {
             const { email, password } = user;
-            const existUser = await this.getByEmail(email);
-        
-            if (existUser) {
-                const passValid = isValidPassword(existUser, password);    
-                return passValid ? existUser : false;
-            } else {
-                return false;
-            };
-        } catch (error) {
-            console.log(error);
-            throw error;
-        };
+            const userExist = await this.getByEmail(email);
+            if (userExist) {
+              const passValid = isValidPassword(userExist, password);
+              if (!passValid) return false;
+              else return this.generateToken(userExist, "15m");
+            }
+            return false;
+          } catch (error) {
+            throw new Error(error.message);
+          };
     };
     
 
@@ -55,5 +67,20 @@ export default class UserMongoDao extends MongoDao {
         };
     };
     
+    async resetPassword(user) {
+        try{
+            const { email } = user;
+            const userExist = await this.getByEmail(email);
+            if(userExist){
+                return (
+                    this.generateToken(userExist, "1h")
+                );
+            }else {
+                return false;
+            };
+        }catch(error){
+            throw new Error(error.menssage);
+        };
+    };
     
 };
