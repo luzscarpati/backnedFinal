@@ -1,5 +1,5 @@
 import { createTransport } from "nodemailer";
-import confing from '../config/config.js';
+import config from '../config/config.js';
 
 
 const transporter = createTransport({
@@ -7,19 +7,20 @@ const transporter = createTransport({
     port: 465,
     secure: true,
     auth: {
-        user: confing.EMAIL,
-        pass: confing.PASSWORD
+        user: config.EMAIL,
+        pass: config.PASSWORD
     }
 });
 
 const createMsgRegister = (first_name) => {
-`<h2>Hola ${first_name}, ahora podés usar nuestros servicios</h2>`};
+  return (
+    `<h2>Hola ${first_name}, ahora podés usar nuestros servicios</h2>`
+  )};
 
 const createMsgResetPass = (first_name) => {
     return (
          `<p>${first_name}, hacé click <a href='http://localhost:8080/new-password'>ACÁ</a> para cambiar tu contraseña</p>`
-    )
-}
+    )}
 
 export const sendMail = async ( user, service, token = null) => {
     try {
@@ -36,13 +37,13 @@ export const sendMail = async ( user, service, token = null) => {
             message = createMsgResetPass(first_name);
             subj = 'Recupera tu contraseña';
             break;
-        case null:
+        default:
             message = "";
             break;
        };
 
        const gmailOptions = {
-        from: confing.EMAIL,
+        from: config.EMAIL,
         to: email,
         subject: subj,
         html: message
