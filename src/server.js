@@ -10,10 +10,16 @@ import passport from "passport";
 import viewsRouter from "./routes/views.router.js";
 import cookieParser from "cookie-parser";
 import config from "./config/config.js";
+import { info } from "./docs/info.js";
+import swaggerUi from "swagger-ui-express";
+import swaggerJSDoc from "swagger-jsdoc"
 
 
 const mainRouter = new MainRouter();
 const app = express();
+
+const spects = swaggerJSDoc(info);
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(spects));
 
 app.use(session(mongoStoreOptions));
 

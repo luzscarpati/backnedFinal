@@ -60,22 +60,18 @@ export default class UserController extends Controllers {
     };
 
   resetPassword = async (req, res, next) =>{
-    try{
+    try {
       const user = req.user;
-      const tokenReset = await userService.resetPassword(user);
-      if(tokenReset) {
-        res.cookie('tokenResetpass', tokenReset);
-        return (
-          httpResponse.Ok(res, {msg: 'Email sent'})
-        );
-      }else {
-        return (
-          httpResponse.ServerError(res, {msg: 'Email not sent'})
-        );
-      };
-    }catch(error){
+      const tokenResetPass = await userService.resetPassword(user);
+      if (tokenResetPass) {
+        res.cookie("tokenpass", tokenResetPass);
+        return httpResponse.Ok(res, {
+          msg: "Email reset pass send ok",
+        });
+      } else return httpResponse.NotFound(res, "email not send");
+    } catch (error) {
       next(error);
-    };
+    }
   };
 
   async updatePassword (req, res, next) {
@@ -83,10 +79,11 @@ export default class UserController extends Controllers {
       const user = req.user;
       const { pass } = req.body;
       const { tokenpass } = req.cookies;
+      console.log("token en controller: ", tokenpass)
       if (!tokenpass)
         return httpResponse.Forbidden(res, errorsDictionary.ERROR_TOKEN);
       const updPass = await userService.updatePassword(user, pass);
-      if (!updPass) return httpResponse.NotFound(res, errorsDictionary.ERROR_PASSWORDL);
+      if (!updPass) return httpResponse.NotFound(res, errorsDictionary.ERROR_PASSWORD);
       res.clearCookie("tokenpass");
       return httpResponse.Ok(res, updPass);
     } catch (error) {

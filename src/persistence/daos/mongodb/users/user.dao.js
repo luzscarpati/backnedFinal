@@ -3,7 +3,7 @@ import { UserModel } from "./user.model.js";
 import { createHash, isValidPassword } from "../../../../utils/utils.js";
 import jwt from "jsonwebtoken";
 import config from "../../../../config/config.js";
-import { tr } from "@faker-js/faker";
+//import { tr } from "@faker-js/faker";
 
 const SECRET_KEY_JWT = config.SECRET_KEY_JWT;
 
@@ -72,13 +72,8 @@ export default class UserMongoDao extends MongoDao {
         try{
             const { email } = user;
             const userExist = await this.getByEmail(email);
-            if(userExist){
-                return (
-                    this.generateToken(userExist, "1h")
-                );
-            }else {
-                return false;
-            };
+            if (userExist) return this.generateToken(userExist, "1h");
+            else return false;
         }catch(error){
             throw new Error(error.menssage);
         };
