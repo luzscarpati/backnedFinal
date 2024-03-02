@@ -1,0 +1,90 @@
+components:
+  schema:
+    products:
+      Postproduct:
+        type: object
+        properties:
+          status:
+            type: number
+            description: Resultado de la solicitud
+          message:
+            type: string
+            description: Mensaje del estado de la solicitud
+          data:
+            type: object
+            description: El objeto con los campos del producto.
+            properties: 
+              product_name:
+                type: string
+                description: Nombre del producto
+              product_description:
+                type: string
+                description: Descripción del producto
+              product_price:
+                type: number
+                description: Precio del producto
+              product_stock:
+                type: number
+                description: Cantidad de producto en stock
+              id: 
+                type: string
+                description: Número de Id del producto
+      ValidationSchemaError:
+        type: object
+        properties:
+          status:
+            type: number
+            description: Código de error
+          message:
+            type: string
+            description: Validation schema error
+          error:
+            type: string
+            description: No se pudo concretar la operación
+      NotFound:
+        type: object
+        properties:
+          message:
+            type: string
+            description: Error de servidor
+      GetAllProducts:
+        type: object
+        properties:
+          status:
+            type: string
+            description: Código de operación
+          message:
+            type: string
+            description: Estado de la operación
+          data:
+            type: array
+            description: Lista de productos
+            items: 
+              properties:
+                product_name:
+                  type: string
+                  description: Nombre del producto
+                product_description:
+                  type: string
+                  description: Descripción del producto
+                product_price:
+                  type: number
+                  description: Precio del producto
+                product_stock:
+                  type: number
+                  description: Cantidad de producto en stock
+                id: 
+                  type: string
+                  description: Número de Id del producto
+      ErrorGetById:
+        type: object
+        properties:
+          status: 
+            type: number
+            description: Código de error
+          message:
+            type: string
+            description: No se encontró el id en la base de datos
+          error:
+            type: string
+            description: El item no pudo ser encontrado

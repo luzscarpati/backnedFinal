@@ -10,6 +10,11 @@ export default class Controllers {
     getAll = async(req, res,  next) => {
         try{
             const items = await this.service.getAll();
+            if(!items){
+                return (
+                    httpResponse.ServerError(res, "No se pudo concretar la operación")
+                )
+            }
             return (
                 httpResponse.Ok(res, items)
             )
@@ -81,9 +86,8 @@ export default class Controllers {
                     httpResponse.NotFound(res, errorsDictionary.ERROR_DELETE_ITEM)
                 )
             } else {
-                const itemUpd = await this.service.delete(id);
                 return (
-                    httpResponse.Ok(res, itemUpd)
+                    httpResponse.Ok(res, `${item.product_name} elimado con éxito`)
                 )                
             };
         }catch(error){

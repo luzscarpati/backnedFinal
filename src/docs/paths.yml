@@ -1,0 +1,121 @@
+paths:
+  /api/products:
+    post:
+      tags: 
+      - products
+      summary: Post de nuevo producto en base de datos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/parameters/schemas/BodyProducts'
+        required: true      
+      responses: 
+        200:
+          description: Se registró el producto correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/products/Postproduct'
+        404: 
+         description: Error en validación del body
+         content:
+          application/json:
+            schema:
+              $ref: '#/components/schema/products/ValidationSchemaError'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+            schema:
+            $ref: '#/components/schema/products/NotFound'
+    get:
+      tags:
+      - products
+      summary: Listar todos los productos
+      responses:
+        200:
+          description: Lista de productos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/products/GetAllProducts'
+        500:
+          description: Error de servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/products/NotFound'
+
+  /api/products/{id}:
+    get:
+      tags:
+      - products
+      summary: Buscar producto por id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id del producto
+          schema:
+            type: string
+      responses:
+        200:
+          description: Prodcuto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/products/Postproduct'
+        404:
+          description:  Id de producto no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/products/ErrorGetById'
+    put:
+      tags:
+      - products
+      summary: Actualización del producto
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Id del producto a actualizar
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/parameters/schemas/BodyProducts'
+        required: true
+      responses:
+        200:
+          description: Se actualizó el producto correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/products/Postproduct'
+        404: 
+         description: No se encontró el producto
+         content:
+          application/json:
+            schema:
+              $ref: '#/components/schema/products/ErrorGetById'
+    delete:
+      tags:
+      - products
+      summary: Eliminar un producto
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Id del producto a liminar
+          schema:
+            type: string
+      responses:
+        description: Se actualizó el producto correctamente
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schema/products/Postproduct'
