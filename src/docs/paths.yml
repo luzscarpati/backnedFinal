@@ -119,3 +119,83 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schema/products/Postproduct'
+
+  /api/users/register:
+    post:
+      tags:
+      - users
+      summary: Registro de un nuevo usuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/parameters/schemas/NewUsers'
+      responses:
+        200:
+          description: Registro exitoso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/users/PostUser'
+        404:
+          description: Error al crear el usuario
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/products/ValidationSchemaError'
+  
+  /api/users/login:
+    post:
+      tags:
+      - users
+      summary: Login de usuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/parameters/schemas/LoginUsers'
+        required: true
+      responses:
+        200:
+          description: Usuario se logueó correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/users/LoginUser'
+        404:
+          description: Error al loguear el usuario
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/products/ValidationSchemaError'
+  
+  /api/users/profile:
+    get:
+      tags:
+      - users
+      summary: Perfil del usuario
+      responses:
+        200:
+          description: Datos del usuario
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/users/ProfileUser'
+      security:
+        - BearerAuth: []
+
+  /api/users/profile-cookie:
+    get:
+      tags:
+      - users
+      summary: Datos del usuario en cookie
+      responses:
+        200:
+          description: Datos del usuario en cookie
+          contet:
+            application/json:
+              schema:
+                $ref: '#/components/schema/users/ProfileUser'
+
+  /api/carts:
+  

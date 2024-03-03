@@ -12,45 +12,48 @@ export default class UserMongoDao extends MongoDao {
         super(UserModel);
     };
 
-    generateToken(user, timeExp) {
+    generateToken(user) {
         const payload = {
             userId: user._id,
         };
         const token = jwt.sign(payload, SECRET_KEY_JWT, {
-            expiresIn: timeExp,
+            expiresIn: "20m",
         });
         return token;
     };
 
     async register(user) {
-        try{
+        try {
             const { email, password } = user;
-            const existUser = await this.model.findOne({ email });
-            if(!existUser)
-                return await this.model.create({
-                   ...user,
-                   password: createHash(password) 
-                });
-            else return null;
+            const existUser = await this.model.findOne({email});
+            if(!existUser){
+                const newUser = await this.model.create({...user, password: createHash(password)})
+                //const token = this.generateToken(newUser)
+                return newUser;
+            } else {
+              return false;
+            }
         }catch(error){
             throw new Error(error.message);
         };
     };
 
-    async login(user) {
+    async login(user){
         try {
-            const { email, password } = user;
-            const userExist = await this.getByEmail(email);
-            if (userExist) {
-              const passValid = isValidPassword(userExist, password);
-              if (!passValid) return false;
-              else return this.generateToken(userExist, "15m");
+          const { email, password } = user;
+          const userExist = await this.getByEmail(email); 
+          if(userExist){
+            const passValid = isValidPassword(userExist, password)
+            if(!passValid) return false
+            else {
+              const token = this.generateToken(userExist)
+              return token;
             }
-            return false;
-          } catch (error) {
-            throw new Error(error.message);
-          };
-    };
+          } return false
+        } catch (error) {
+          console.log(error)
+        }
+      }
     
 
       async getByEmail(email) {

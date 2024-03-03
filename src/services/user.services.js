@@ -1,9 +1,8 @@
 import Services from "./class.services.js";
 import persistence from "../persistence/persistence.js";
+const { userDao } = persistence;
 import { sendMail } from "./mailing.user.services.js";
 
-
-const { userDao } = persistence;
 
 export default class UserService extends Services {
     constructor() {
@@ -21,13 +20,13 @@ export default class UserService extends Services {
     };
 
     login = async (user) => {
-        try {
-          const userExist = await this.dao.login(user);
-          return userExist;
-        } catch (error) {
-          throw new Error(error.message);
-        };
-      };
+      try {
+        const userExist = await userDao.login(user);
+        return userExist;
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    };
 
     resetPassword = async(user) =>{
       try{
