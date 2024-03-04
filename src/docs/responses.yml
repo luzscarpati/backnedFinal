@@ -29,24 +29,6 @@ components:
               id: 
                 type: string
                 description: Número de Id del producto
-      ValidationSchemaError:
-        type: object
-        properties:
-          status:
-            type: number
-            description: Código de error
-          message:
-            type: string
-            description: Validation schema error
-          error:
-            type: string
-            description: No se pudo concretar la operación
-      NotFound:
-        type: object
-        properties:
-          message:
-            type: string
-            description: Error de servidor
       GetAllProducts:
         type: object
         properties:
@@ -76,18 +58,6 @@ components:
                 id: 
                   type: string
                   description: Número de Id del producto
-      ErrorGetById:
-        type: object
-        properties:
-          status: 
-            type: number
-            description: Código de error
-          message:
-            type: string
-            description: No se encontró el id en la base de datos
-          error:
-            type: string
-            description: El item no pudo ser encontrado
     users:
       PostUser:
         type: object
@@ -236,3 +206,52 @@ components:
                       product:
                         type: string
                         description: Id del producto en carrito
+    errors:
+      ValidationSchemaError:
+        type: object
+        properties:
+          status:
+            type: number
+            description: Código de error
+          message:
+            type: string
+            description: Validation schema error
+          error:
+            type: string
+            description: No se pudo concretar la operación
+      NotFound:
+        type: object
+        properties:
+          status:
+            type: number
+            description: Código de estadp de la petición
+          message:
+            type: string
+            description: Error de servidor
+          error: 
+            type: string
+            description: Datos del error
+      ErrorGetById:
+        type: object
+        properties:
+          status: 
+            type: number
+            description: Código de error
+          message:
+            type: string
+            description: No se encontró el id en la base de datos
+          error:
+            type: string
+            description: El item no pudo ser encontrado   
+      ErrorUnauthorized:
+        type: object
+        properties:
+          status: 
+            type: number
+            description: Código de error
+          message:
+            type: string
+            description: No se encontró el id en la base de datos
+          error:
+            type: string
+            description: El item no pudo ser encontrado 

@@ -22,13 +22,13 @@ paths:
          content:
           application/json:
             schema:
-              $ref: '#/components/schema/products/ValidationSchemaError'
+              $ref: '#/components/schema/errors/ValidationSchemaError'
         500:
           description: Error del servidor
           content:
             application/json:
             schema:
-            $ref: '#/components/schema/products/NotFound'
+            $ref: '#/components/schema/errors/NotFound'
     get:
       tags:
       - products
@@ -40,12 +40,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schema/products/GetAllProducts'
-        500:
-          description: Error de servidor
+        404: 
+          description: Error en validación del body
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/products/NotFound'
+                $ref: '#/components/schema/errors/ValidationSchemaError'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/NotFound'
 
   /api/products/{id}:
     get:
@@ -66,12 +72,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schema/products/Postproduct'
-        404:
-          description:  Id de producto no encontrado
+        404: 
+          description: Error en validación del body
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/products/ErrorGetById'
+                $ref: '#/components/schema/errors/ValidationSchemaError'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/NotFound'
     put:
       tags:
       - products
@@ -97,11 +109,17 @@ paths:
               schema:
                 $ref: '#/components/schema/products/Postproduct'
         404: 
-         description: No se encontró el producto
-         content:
-          application/json:
-            schema:
-              $ref: '#/components/schema/products/ErrorGetById'
+          description: Error en validación del body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/ValidationSchemaError'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/NotFound'
     delete:
       tags:
       - products
@@ -120,6 +138,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schema/products/Postproduct'
+        404: 
+          description: Error en validación del body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/ValidationSchemaError'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/NotFound'
 
   /api/users/register:
     post:
@@ -138,12 +168,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schema/users/PostUser'
-        404:
-          description: Error al crear el usuario
+        404: 
+          description: Error en validación del body
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/products/ValidationSchemaError'
+                $ref: '#/components/schema/errors/ValidationSchemaError'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/NotFound'
   
   /api/users/login:
     post:
@@ -163,12 +199,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schema/users/LoginUser'
-        404:
-          description: Error al loguear el usuario
+        401:
+          description: Usuario no autorizado
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/products/ValidationSchemaError'
+                $ref: '#/components/schema/errors/ErrorUnauthorized'
+        404: 
+          description: Error en validación del body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/ValidationSchemaError'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/NotFound'
   
   /api/users/profile:
     get:
@@ -182,6 +230,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schema/users/ProfileUser'
+        401:
+          description: Usuario no autorizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/ErrorUnauthorized'
+        404: 
+          description: Error en validación del body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/ValidationSchemaError'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/NotFound'
       security:
         - BearerAuth: []
 
@@ -197,6 +263,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schema/users/ProfileUser'
+        401:
+          description: Usuario no autorizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/ErrorUnauthorized'
+        404: 
+          description: Error en validación del body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/ValidationSchemaError'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/NotFound'
 
   /api/carts:
     post:
@@ -226,6 +310,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schema/carts/GetAllCarts'
+        404: 
+          description: Error en validación del body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/ValidationSchemaError'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/NotFound'
   
   /api/carts/{id}:
     get:
@@ -246,6 +342,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schema/carts/NewCart'
+        404: 
+          description: Error en validación del body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/ValidationSchemaError'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/NotFound'
     delete:
       tags:
       - carts
@@ -264,6 +372,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schema/carts/NewCart'
+        404: 
+          description: Error en validación del body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/ValidationSchemaError'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/NotFound'
 
   /api/carts/{idCart}/products/{idProd}:
     post:
@@ -290,6 +410,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schema/carts/NewCart'
+        404: 
+          description: Error en validación del body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/ValidationSchemaError'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/NotFound'
     delete:
       tags:
       - carts
@@ -314,3 +446,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schema/carts/NewCart'
+        404: 
+          description: Error en validación del body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/ValidationSchemaError'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/errors/NotFound'
