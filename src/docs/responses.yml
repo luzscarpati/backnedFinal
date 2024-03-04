@@ -173,3 +173,66 @@ components:
             last_name: "Scarpati"
             email: "luz.scarpati@gmail"
             role: "user"
+    carts:  
+      NewCart:
+        type: object
+        properties:
+          status:
+            type: number
+            description: Códgo de estado de la solicitud
+          message:
+            type: string
+            description: Mensaje del estado de la solicitud
+          data:
+            type: object
+            properties:
+              id:
+                type: string
+                description:  Id del carrito creado
+              products:
+                type: array
+                description: Array de productos que contiene el carrito
+                items:
+                  properties:
+                    product:
+                      type: atring
+                      description: Id del producto en carrito
+                    quantity:
+                      type: number
+                      description: Cantidad del producto en carrito
+            example:
+              status: 200
+              menssage: Success
+              data: 
+                id: 65e4bd76cc2e291dbc5c213c
+                products:
+                  product: 65e4bd76cc2e291dbc5c213c
+                  quantity: 3
+      GetAllCarts:
+        type: object
+        properties:
+          status:
+            type: number
+            description: Código de operación
+          message:
+            type: string
+            description: Estado de la operación
+          data:
+            type: array
+            description: Lista de carritos
+            items: 
+              properties:
+                id:
+                  type: string
+                  description: Id del carrito
+                products:
+                  type: array
+                  description: Array de productos en carrito
+                  items:
+                    properties:
+                      quantity:
+                        type: number
+                        description: Cantidad del producto
+                      product:
+                        type: string
+                        description: Id del producto en carrito

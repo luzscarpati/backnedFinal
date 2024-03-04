@@ -36,6 +36,7 @@ export default class CartController extends Controllers {
         idCart,
         idProd,
       );
+      console.log(newProdToUserCart)
       if (!newProdToUserCart){
         return (
           httpResponse.NotFound(res, errorsDictionary.ERROR_ADD_TO_CART)

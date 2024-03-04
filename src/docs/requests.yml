@@ -69,6 +69,16 @@ components:
         example:
           email: marcostavares@gmail.com
           password: "1234"
+      PostNewCart:
+        type: object
+        required:
+          - product
+        properties:
+          product:
+            type: string
+            description: Id del producto
+        example:
+          product: '65e4bd76cc2e291dbc5c213c'
   securitySchemes:
     BearerAuth: 
       type: http

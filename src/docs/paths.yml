@@ -114,11 +114,12 @@ paths:
           schema:
             type: string
       responses:
-        description: Se actualizó el producto correctamente
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schema/products/Postproduct'
+        200:
+          description: Se elimimó el producto correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/products/Postproduct'
 
   /api/users/register:
     post:
@@ -198,4 +199,118 @@ paths:
                 $ref: '#/components/schema/users/ProfileUser'
 
   /api/carts:
+    post:
+      tags:
+      - carts
+      summary: Crear un nuevo carrito
+      requestBody:
+        content:
+          application/json:
+            $ref: '#/components/parameters/schemas/PostNewCart'
+          requited: true
+      responses:
+        200:
+          description: Se creó el carrito correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/carts/NewCart'
+    get:
+      tags:
+      - carts
+      summary: Listar todos los carritos
+      responses:
+        200:
+          description: Lista de productos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/carts/GetAllCarts'
   
+  /api/carts/{id}:
+    get:
+      tags:
+      - carts
+      summary: Buscar carrito por id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id del carrito
+          schema:
+            type: string
+      responses:
+        200:
+          description: Carrito encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/carts/NewCart'
+    delete:
+      tags:
+      - carts
+      summary: Borrar carrito por id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id del carrito
+          schema:
+            type: string
+      responses:
+        200:
+          description: Se elimimó el carrito correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/carts/NewCart'
+
+  /api/carts/{idCart}/products/{idProd}:
+    post:
+      tags:
+      - carts
+      summary: Agregar producto al carrito
+      parameters:
+        - in: path
+          name: idCart
+          required: true
+          schema:
+            type: string
+            description: ID del carrito al que se va a agregar el producto
+        - in: path
+          name: idProd
+          required: true
+          schema:
+            type: string
+            description: ID del producto que se va a agregar al carrito
+      responses:
+        200:
+          description: Producto agregado al carrito correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/carts/NewCart'
+    delete:
+      tags:
+      - carts
+      summary: Borrar producto del carrito
+      parameters:
+        - in: path
+          name: idCart
+          required: true
+          schema:
+            type: string
+            description: ID del carrito al que se va a agregar el producto
+        - in: path
+          name: idProd
+          required: true
+          schema:
+            type: string
+            description: ID del producto que se va a agregar al carrito
+      responses:
+        200:
+          description: Se elimimó el producto del carrito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/carts/NewCart'
