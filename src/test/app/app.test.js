@@ -261,10 +261,3 @@ describe('Test integrales para router carts', () => {
         expect(productResponseError.body.error).toBeDefined();
     });
 });
-
-describe('Test integrales para router carts', () => {
-    beforeAll(async () => {
-        await mongoose.connection.collections["users"].drop();
-    });
-
-});
