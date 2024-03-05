@@ -86,8 +86,9 @@ export default class Controllers {
                     httpResponse.NotFound(res, errorsDictionary.ERROR_DELETE_ITEM)
                 )
             } else {
+                await this.service.delete(id);
                 return (
-                    httpResponse.Ok(res, `${item.product_name} elimado con éxito`)
+                    httpResponse.Ok(res, `${item._id} elimado con éxito`)
                 )                
             };
         }catch(error){
