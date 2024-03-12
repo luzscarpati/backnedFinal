@@ -45,3 +45,5 @@ app.use(errorHandler);
 const PORT = config.PORT;
 
 app.listen(PORT, ()=> logger.info(`SERVER UP ON PORT: ${PORT}`));
+
+export default app
