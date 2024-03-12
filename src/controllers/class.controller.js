@@ -61,16 +61,14 @@ export default class Controllers {
     update = async(req, res, next) => {
         try {
             const { id } = req.params;
-            const item = await this.service.getById(id);
+            let item = await this.service.getById(id);
             if(!item) {
                 return (
                     httpResponse.NotFound(res, errorsDictionary.ERROR_UPDATE_ITEM)
                 )
             } else {
                 const itemUpd = await this.service.update(id, req.body);
-                return (
-                    httpResponse.Ok(res, itemUpd)
-                )    
+                return httpResponse.Ok(res, itemUpd) 
             }
         }catch(error){
             next(error.message);
@@ -78,20 +76,16 @@ export default class Controllers {
     };
 
     delete = async(req, res, next) => {
-        try{
+        try {
             const { id } = req.params;
-            const item = await this.service.getById(id);
-            if(!item) {
-                return (
-                    httpResponse.NotFound(res, errorsDictionary.ERROR_DELETE_ITEM)
-                )
+            const itemDeleted = await this.service.delete(id);
+            if (!itemDeleted) {
+                return httpResponse.NotFound(res, errorsDictionary.ERROR_DELETE_ITEM);
             } else {
-                return (
-                    httpResponse.Ok(res, `${item.product_name} elimado con éxito`)
-                )                
-            };
-        }catch(error){
+                return httpResponse.Ok(res, itemDeleted);
+            }
+        } catch(error) {
             next(error.message);
-        };
+        }
     };
 };

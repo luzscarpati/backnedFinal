@@ -22,6 +22,7 @@ export const errorsDictionary = {
 }
 
 export class HttpResponse {
+  
   Ok(res, data) {
     return res.status(HttpStatus.OK).json({
       status: HttpStatus.OK,
