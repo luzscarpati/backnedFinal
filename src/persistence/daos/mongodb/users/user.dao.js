@@ -99,6 +99,7 @@ export default class UserMongoDao extends MongoDao {
     async updateUserDocumentStatus(user) {
         try {
           const updatedUser = await UserModel.findByIdAndUpdate(user._id, user, { new: true });
+          console.log('updatedUser DAO------------->', updatedUser)
           return updatedUser;
         } catch (error) {
           throw new Error(error.message);

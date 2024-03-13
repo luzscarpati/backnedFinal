@@ -12,5 +12,5 @@ router.get('/profile', verifyToken, controller.profile);
 router.get('/profile-cookie', checkAuthCookie, controller.profile);
 router.post('/reset-pass', verifyToken, controller.resetPassword);
 router.put('/new-password', verifyToken, controller.updatePassword);
-router.post('/documents', verifyToken, uploader.fields([{ name: 'profile', maxCount: 1 }, { name: 'product', maxCount: 8 }, { name: 'document', maxCount: 8 }]), controller.uploadDocuments);
+router.post('/documents', verifyToken, uploader.fields([{ name: 'profile' }, { name: 'product'}, { name: 'document'}]), controller.uploadDocuments);
 export default router;

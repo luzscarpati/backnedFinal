@@ -66,7 +66,7 @@ export default class UserService extends Services {
           return user.role = 'premium';
         }
         const updatedUser = await userDao.updateUserDocumentStatus(user);
-        console.log('UPDATEuSER----->' ,updatedUser.role)
+        console.log('UPDATEuSER SERVICE-------------->' ,updatedUser.role)
         return updatedUser;
       }
     } catch (error) {

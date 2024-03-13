@@ -4,7 +4,8 @@ import { __dirname } from '../utils/utils.js';
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       let folder;
-      const fileType = req.body.fileType
+      const fileType = file.fieldname;
+      console.log('UPLOADER------------->',file);
       switch (fileType) {
         case 'profile':
           folder = 'profiles';
@@ -18,11 +19,14 @@ const storage = multer.diskStorage({
         default:
           folder = 'documents';
       }
-      cb(null, __dirname + `/public/${folder}`);
+      console.log('UPLOADER2------------->',fileType);
+      
+      cb(null, __dirname + '/public/' + folder);
+      console.log('CB------------->',__dirname + '/public/' + folder);
     },
     filename: function (req, file, cb) {
       cb(null, file.originalname);
-      console.log('FYLETYPE------>', fileType)
+      
     }
   });
 

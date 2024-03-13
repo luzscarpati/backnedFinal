@@ -92,7 +92,7 @@ export default class UserController extends Controllers {
   async uploadDocuments (req, res, next) {
     try {
       const userId = req.user.id;
-      console.log('REQFILES---------->', req.files)
+      console.log('REQFILES CONTROLLERS---------->', req.files)
       if (!req.files || req.files.length === 0) {
         return httpResponse.ServerError(res, errorsDictionary.ERROR_UPLOAD_DOCUMENT)
       }else {
