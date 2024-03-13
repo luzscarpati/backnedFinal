@@ -89,4 +89,19 @@ export default class UserController extends Controllers {
     };
   };
 
+  async uploadDocuments (req, res, next) {
+    try {
+      const userId = req.user.id;
+      console.log('REQFILES---------->', req.files)
+      if (!req.files || req.files.length === 0) {
+        return httpResponse.ServerError(res, errorsDictionary.ERROR_UPLOAD_DOCUMENT)
+      }else {
+        const updateUserStatus = await userService.updateUserDocumentStatus(userId);        
+        return httpResponse.Ok(res, updateUserStatus)
+      }
+    }catch(error){
+      next(error.message)
+    };
+  };
+
 };

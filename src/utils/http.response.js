@@ -17,7 +17,8 @@ export const errorsDictionary = {
   ERROR_DELETE_CART: 'Error deleting cart',
   ERROR_FIND_ITEM: 'Error finding item',
   ERROR_TOKEN: 'Token expired',
-  ERROR_PASSWORD: 'Password equal'
+  ERROR_PASSWORD: 'Password equal',
+  ERROR_UPLOAD_DOCUMENT: 'No se pudo cargar el archivo'
   
 }
 

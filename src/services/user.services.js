@@ -55,5 +55,23 @@ export default class UserService extends Services {
           throw new Error(error.menssage);
       };
   };
+
+  updateUserDocumentStatus = async (userId) => {
+    try {
+      const user = await userDao.getById(userId);
+      if (!user) {
+        return false
+      }else {
+        if (user.documentStatus) {
+          return user.role = 'premium';
+        }
+        const updatedUser = await userDao.updateUserDocumentStatus(user);
+        console.log('UPDATEuSER----->' ,updatedUser.role)
+        return updatedUser;
+      }
+    } catch (error) {
+      throw new Error(error.menssage);
+    };
+  };
     
 };

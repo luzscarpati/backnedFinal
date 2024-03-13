@@ -35,6 +35,10 @@ const userSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  documentStatus: {
+    type: Boolean,
+    default: false,
+  }
 });
 const userColl = "users";
 export const UserModel = model(userColl, userSchema);

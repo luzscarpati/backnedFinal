@@ -43,3 +43,4 @@ export const generateProduct = () => {
     category: fakerES.commerce.productAdjective(),
     };
 };
+

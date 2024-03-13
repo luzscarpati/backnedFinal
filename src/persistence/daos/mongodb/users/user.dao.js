@@ -51,9 +51,9 @@ export default class UserMongoDao extends MongoDao {
             }
           } return false
         } catch (error) {
-          console.log(error)
-        }
-      }
+          throw new Error(error.menssage)
+        };
+      };
     
 
       async getByEmail(email) {
@@ -63,10 +63,8 @@ export default class UserMongoDao extends MongoDao {
                 console.log("Usuario no encontrado para el email:", email);
                 return null;
             };
-            console.log("Usuario encontrado:", user.email);
             return user;
         } catch (error) {
-            console.log("Error en getByEmail:", error);
             throw error;
         };
     };
@@ -97,5 +95,14 @@ export default class UserMongoDao extends MongoDao {
             throw new Error(error.menssage);
         };
     };
+
+    async updateUserDocumentStatus(user) {
+        try {
+          const updatedUser = await UserModel.findByIdAndUpdate(user._id, user, { new: true });
+          return updatedUser;
+        } catch (error) {
+          throw new Error(error.message);
+        }
+      }
     
 };
