@@ -96,14 +96,28 @@ export default class UserMongoDao extends MongoDao {
         };
     };
 
-    async updateUserDocumentStatus(user) {
+    async updateUserDocumentStatus(user, documentPath) {
         try {
-          const updatedUser = await UserModel.findByIdAndUpdate(user._id, user, { new: true });
-          console.log('updatedUser DAO------------->', updatedUser)
-          return updatedUser;
+            console.log('USER EN DAO--------z', user);
+            console.log('DOCUMENTPATH EN DAO-------->', documentPath);
+    
+            // Actualizar el usuario en la base de datos
+            const updatedUser = await UserModel.findOneAndUpdate(
+                { _id: user._id }, // Filtro para encontrar el usuario por su _id
+                { 
+                    documentPath: documentPath, // Asignar documentPath
+                    $set: { role: user.documentStatus ? 'premium' : 'user' } // Actualizar el rol basado en documentStatus
+                },
+                { new: true } // Para devolver el documento actualizado
+            );
+    
+            console.log('USER ACTUALIZADO--------->', updatedUser);
+            return updatedUser;
         } catch (error) {
-          throw new Error(error.message);
+            throw new Error(error.message);
         }
-      }
+    }
+    
+              
     
 };

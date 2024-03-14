@@ -38,6 +38,10 @@ const userSchema = new Schema({
   documentStatus: {
     type: Boolean,
     default: false,
+  },
+  documentPath: {
+    type: String,
+    default: '',
   }
 });
 const userColl = "users";

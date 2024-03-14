@@ -29,14 +29,14 @@ switch (persistence) {
         ticketDao = new TicketMongoDao();
         console.log(persistence);
         break;
-        case "MONGOTEST":
-            await initMongoDBTest();
-            userDao = new UserMongoDao();
-            productDao = new ProductMongoDao();
-            cartDao = new CartsMongoDao();
-            ticketDao = new TicketMongoDao();
-            console.log(persistence);
-            break;
+    case "MONGOTEST":
+        await initMongoDBTest();
+        userDao = new UserMongoDao();
+        productDao = new ProductMongoDao();
+        cartDao = new CartsMongoDao();
+        ticketDao = new TicketMongoDao();
+        console.log(persistence);
+        break;
     default:
         await initMongoDBTest();
         userDao = new UserMongoDao();
